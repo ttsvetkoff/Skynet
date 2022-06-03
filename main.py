@@ -77,7 +77,7 @@ create_company_name_dropdown.grid(column=1, row=3)
 
 read_visitor_output_text = tkinter.StringVar()
 read_visitor_output_text = set("Visits of all representatives from selected company")
-read_visitor_output = tkinter.Text(root, height=10)
+read_visitor_output = tkinter.Text(root, height=5)
 read_visitor_output.grid(column=1, row=6)
 
 query_company_name_dropdown_txt = tkinter.StringVar()
