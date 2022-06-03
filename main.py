@@ -18,6 +18,7 @@ import os
 ################################################################################
 root = tk.Tk()
 root.title("Skynet")
+root.geometry('1020x1250+400+5')
 #canvas = tk.Canvas(root, width=600, height=600)
 #canvas.grid(columnspan=3, rowspan=3)
 #root.configure(bg='white')
