@@ -3,6 +3,9 @@
 # Importing oracledb for the SQL CRUD Operations                               #
 # Importing OS for operating system operations making it more cross - platform #
 ################################################################################
+
+# add error check for lenghths of text fields implement on both input text fields
+
 from ctypes.wintypes import SIZE
 from curses import window
 from re import M, S
@@ -27,7 +30,15 @@ root.geometry('1025x1255+400+5')
 
 #DB
 with sqlite3.connect("database.db") as db:
-    cursor = db.cursor()
+    cursor_visitor = db.cursor()
+    cursor_subcontracting_company = db.cursor()
+    cursor_employee  = db.cursor()
+
+cursor_visitor.execute(""" CREATE TABLE IF NOT EXISTS visitor(visitor_id integer PRIMARY KEY AUTOINCREMENT, visitor_name text NOT NULL, visit_date Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP, company_name text, FOREIGN KEY(company_name) REFERENCES subcontracting_company(company_name));""")
+
+cursor_subcontracting_company.execute(""" CREATE TABLE IF NOT EXISTS subcontracting_company(company_name text PRIMARY KEY, department_contractors text NOT NULL, FOREIGN KEY(department_contractors) REFERENCES employee(department_employee));""")
+
+cursor_employee.execute(""" CREATE TABLE IF NOT EXISTS employee(employee_ID integer PRIMARY KEY AUTOINCREMENT, employee_name text NOT NULL, department_employee text NOT NULL);""")
 
 ################################################################################
 #                                                                              #
