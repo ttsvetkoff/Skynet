@@ -3,6 +3,9 @@
 # Importing oracledb for the SQL CRUD Operations                               #
 # Importing OS for operating system operations making it more cross - platform #
 ################################################################################
+
+# add error check for lenghths of text fields implement on both input text fields
+
 from ctypes.wintypes import SIZE
 from curses import window
 from re import M, S
@@ -10,17 +13,32 @@ import tkinter as tk
 from tkinter import E, N, W, ttk
 import tkinter
 from PIL import Image, ImageTk
-import oracledb
+import sqlite3
 import os
+
+from oracledb import Cursor
 ################################################################################
 #                                                                              #
 # Main GUI Windows definition                                                  #
 ################################################################################
 root = tk.Tk()
 root.title("Skynet")
+root.geometry('1025x1255+400+5')
 #canvas = tk.Canvas(root, width=600, height=600)
 #canvas.grid(columnspan=3, rowspan=3)
 #root.configure(bg='white')
+
+#DB
+with sqlite3.connect("database.db") as db:
+    cursor_visitor = db.cursor()
+    cursor_subcontracting_company = db.cursor()
+    cursor_employee  = db.cursor()
+
+cursor_visitor.execute(""" CREATE TABLE IF NOT EXISTS visitor(visitor_id integer PRIMARY KEY AUTOINCREMENT, visitor_name text NOT NULL, visit_date Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP, company_name text, FOREIGN KEY(company_name) REFERENCES subcontracting_company(company_name));""")
+
+cursor_subcontracting_company.execute(""" CREATE TABLE IF NOT EXISTS subcontracting_company(company_name text PRIMARY KEY, department_contractors text NOT NULL, FOREIGN KEY(department_contractors) REFERENCES employee(department_employee));""")
+
+cursor_employee.execute(""" CREATE TABLE IF NOT EXISTS employee(employee_ID integer PRIMARY KEY AUTOINCREMENT, employee_name text NOT NULL, department_employee text NOT NULL);""")
 
 ################################################################################
 #                                                                              #
