@@ -10,8 +10,10 @@ import tkinter as tk
 from tkinter import E, N, W, ttk
 import tkinter
 from PIL import Image, ImageTk
-import oracledb
+import sqlite3
 import os
+
+from oracledb import Cursor
 ################################################################################
 #                                                                              #
 # Main GUI Windows definition                                                  #
@@ -22,6 +24,10 @@ root.geometry('1025x1255+400+5')
 #canvas = tk.Canvas(root, width=600, height=600)
 #canvas.grid(columnspan=3, rowspan=3)
 #root.configure(bg='white')
+
+#DB
+with sqlite3.connect("database.db") as db:
+    cursor = db.cursor()
 
 ################################################################################
 #                                                                              #
