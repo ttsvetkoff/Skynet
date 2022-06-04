@@ -4,7 +4,7 @@
 # Importing OS for operating system operations making it more cross - platform #
 ################################################################################
 
-# add error check for lenghths of text fields implement on both input text fields
+# add error check for lenghths of text fields implement on both input text fields (if statements), create unit tests, insert data to DB, create button functions, check if i can add loops
 
 from ctypes.wintypes import SIZE
 from curses import window
