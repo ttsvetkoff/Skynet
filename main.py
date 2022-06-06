@@ -111,24 +111,39 @@ def main_app():
 
     def delete_last_entry():
         db_connect()
-        cursor.execute("""DELETE FROM visitor WHERE visitor_id = (SELECT MAX(visitor_id) FROM visitor);""")
+        #cursor.execute("""DELETE FROM visitor WHERE visitor_id = (SELECT MAX(visitor_id) FROM visitor);""")
         tkinter.messagebox.showinfo(title="DB", message = "Last Visitor Entry Deleted")
         db.commit()   
 
+    def add_record():
+        db_connect()
+        #cursor.execute(""");""")
+        tkinter.messagebox.showinfo(title="DB", message = "New Visitor Entry Added")
+        db.commit() 
 
+    def query_record():
+        db_connect()
+        #cursor.execute(""");""")
+        
+    def update_record():
+        db_connect()
+        #cursor.execute(""");""")
+        tkinter.messagebox.showinfo(title="DB", message = "Existing Record Updated")
+        db.commit() 
+            
 
     create_button_text = tk.StringVar()
-    create_button = tk.Button(root, textvariable=create_button_text, font="Railway", height=3, width=10)
+    create_button = tk.Button(root, textvariable=create_button_text, font="Railway", height=3, width=10, command=add_record)
     create_button_text.set("Add record")
     create_button.grid(column=3, row=2,)
 
     read_button_text = tk.StringVar()
-    read_button = tk.Button(root, textvariable=read_button_text, font="Railway", height=3, width=10)
+    read_button = tk.Button(root, textvariable=read_button_text, font="Railway", height=3, width=10, command=query_record)
     read_button_text.set("Query record")
     read_button.grid(column=3, row=5)
 
     update_button_text = tk.StringVar()
-    update_button = tk.Button(root, textvariable=update_button_text, font="Railway", height=3, width=10)
+    update_button = tk.Button(root, textvariable=update_button_text, font="Railway", height=3, width=10, command=update_record)
     update_button_text.set("Update record")
     update_button.grid(column=3, row=10)
 
@@ -208,7 +223,7 @@ def create_db():
     cursor_subcontracting_company.executemany("insert into subcontracting_company values (?,?)", subcontracting_tuple)
     cursor_employee.executemany("insert into employee values (?,?,?)", employee_tuple)
     cursor = db.cursor()
-    tkinter.messagebox.showinfo(title="DB", message = "New database created please restart the application to take effect")
+    tkinter.messagebox.showinfo(title="DB", message = "New database was created, please restart the application to activate it!")
     db.commit()
 
 
