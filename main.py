@@ -5,21 +5,22 @@
 ################################################################################
 
 # create unit tests, create button functions, 
-# if/for for checking if hard coded data is already in DB, if it exists skip insert (show message 20s saying DB init), if it doesnt exist show message db creating
 #create button and text field functions
 
 from ctypes.wintypes import SIZE
 from curses import window
+from email import message
 from multiprocessing import connection
 from re import M, S
 import tkinter as tk
 from tkinter import E, N, W, ttk
 import tkinter
+from tkinter import messagebox
 from PIL import Image, ImageTk
 import sqlite3
+from sqlite3 import Cursor
 import os
-
-from oracledb import Cursor
+import os.path
 ################################################################################
 #                                                                              #
 # Main GUI Windows definition                                                  #
@@ -27,57 +28,64 @@ from oracledb import Cursor
 root = tk.Tk()
 root.title("Skynet")
 root.geometry('1025x1255+400+5')
-#canvas = tk.Canvas(root, width=600, height=600)
-#canvas.grid(columnspan=3, rowspan=3)
-#root.configure(bg='white')
-#populate tables
 
-employee_tuple = [
-    (1, "Karla Murphy", "Engineering"),
-    (2, "Pauline Daughtry", "Engineering"),
-    (3, "Sharp Markles", "Engineering"),
-    (4, "Wayne Morris", "Facilities"),
-    (5, "Dave Brixton", "Facilities"),
-    (6, "Shaf Ibrahim", "IT"),
-    (7, "Tahir Fasterson", "IT"),
-    (8, "Mihau Black", "IT"),
-    (9, "Phil Daniels", "IT"),
-    (10, "Samuel Clemens", "IT")
+#def connect_db():
+#    with sqlite3.connect("database.db") as db:
+#        cursor_visitor = db.cursor()
+#        cursor_subcontracting_company = db.cursor()
+#        cursor_employee  = db.cursor()
+
+def run_app():
+    tkinter.messagebox.showinfo(title="DB", message = "Database Loaded")
+    root.mainloop()
+
+def create_db():
+    employee_tuple = [
+            (1, "Karla Murphy", "Engineering"),
+            (2, "Pauline Daughtry", "Engineering"),
+            (3, "Sharp Markles", "Engineering"),
+            (4, "Wayne Morris", "Facilities"),
+            (5, "Dave Brixton", "Facilities"),
+            (6, "Shaf Ibrahim", "IT"),
+            (7, "Tahir Fasterson", "IT"),
+            (8, "Mihau Black", "IT"),
+            (9, "Phil Daniels", "IT"),
+            (10, "Samuel Clemens", "IT")
+]
+    subcontracting_tuple = [
+            ("React", "IT"),
+            ("PSV", "IT"),
+            ("Metapackt", "IT"),
+            ("CreapureAV", "IT"),
+            ("Automation Solutions", "Engineering"),
+            ("Fire and Security", "Engineering"),
+            ("SolarPB", "Engineering"),
+            ("Shutter Door Solutions", "Facilities"),
+            ("FloorRite", "Facilities"),
+            ("Painting Solutions", "Facilities")
 ]
 
-subcontracting_tuple = [
-    ("React", "IT"),
-    ("PSV", "IT"),
-    ("Metapackt", "IT"),
-    ("CreapureAV", "IT"),
-    ("Automation Solutions", "Engineering"),
-    ("Fire and Security", "Engineering"),
-    ("SolarPB", "Engineering"),
-    ("Shutter Door Solutions", "Facilities"),
-    ("FloorRite", "Facilities"),
-    ("Painting Solutions", "Facilities")
-]
-#DB
-with sqlite3.connect("database.db") as db:
-    cursor_visitor = db.cursor()
-    cursor_subcontracting_company = db.cursor()
-    cursor_employee  = db.cursor()
+    with sqlite3.connect("database.db") as db:
+        cursor_visitor = db.cursor()
+        cursor_subcontracting_company = db.cursor()
+        cursor_employee  = db.cursor()
 
-#create tables
-cursor_visitor.execute(""" CREATE TABLE IF NOT EXISTS visitor(visitor_id integer PRIMARY KEY, visitor_name text NOT NULL, visit_date Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP, company_name text, FOREIGN KEY(company_name) REFERENCES subcontracting_company(company_name));""")
+    cursor_visitor.execute(""" CREATE TABLE IF NOT EXISTS visitor(visitor_id integer PRIMARY KEY, visitor_name text NOT NULL, visit_date Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP, company_name text, FOREIGN KEY(company_name) REFERENCES subcontracting_company(company_name));""")
 
-cursor_subcontracting_company.execute(""" CREATE TABLE IF NOT EXISTS subcontracting_company(company_name text PRIMARY KEY, department_contractors text NOT NULL, FOREIGN KEY(department_contractors) REFERENCES employee(department_employee));""")
+    cursor_subcontracting_company.execute(""" CREATE TABLE IF NOT EXISTS subcontracting_company(company_name text PRIMARY KEY, department_contractors text NOT NULL, FOREIGN KEY(department_contractors) REFERENCES employee(department_employee));""")
 
-cursor_employee.execute(""" CREATE TABLE IF NOT EXISTS employee(employee_ID integer PRIMARY KEY, employee_name text NOT NULL, department_employee text NOT NULL);""")
+    cursor_employee.execute(""" CREATE TABLE IF NOT EXISTS employee(employee_ID integer PRIMARY KEY, employee_name text NOT NULL, department_employee text NOT NULL);""")
 
-cursor_subcontracting_company.executemany("insert into subcontracting_company values (?,?)", subcontracting_tuple)
-cursor_employee.executemany("insert into employee values (?,?,?)", employee_tuple)
-db.commit()
+    cursor_subcontracting_company.executemany("insert into subcontracting_company values (?,?)", subcontracting_tuple)
+    cursor_employee.executemany("insert into employee values (?,?,?)", employee_tuple)
+    tkinter.messagebox.showinfo(title="DB", message = "Database Created")
+    db.commit()
+    db.close()
+    root.mainloop()
 
-
-
-
-
+def logic_check():
+    if os.path.exists('database.db'): run_app()
+    else:  create_db()
 ################################################################################
 #                                                                              #
 # Logo Create                                                                  #
@@ -201,4 +209,4 @@ update_comp_name_new.grid(columnspan=1, column=0, row=10, sticky=W)
 delete_last_visitor = tk.Label(root, text="This button deletes the last visitor", font="Raleway")
 delete_last_visitor.grid(columnspan=1, column=0, row=12, sticky=W)
 
-root.mainloop()
+logic_check()
