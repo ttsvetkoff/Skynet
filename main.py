@@ -112,7 +112,7 @@ def main_app():
     def delete_last_entry():
         db_connect()
         cursor.execute("""DELETE FROM visitor WHERE visitor_id = (SELECT MAX(visitor_id) FROM visitor);""")
-        tkinter.messagebox.showinfo(title="DB", message = "Last Entry Deleted")
+        tkinter.messagebox.showinfo(title="DB", message = "Last Visitor Entry Deleted")
         db.commit()   
 
 
