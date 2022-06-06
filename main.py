@@ -103,9 +103,6 @@ def main_app():
     logo_label4.image = logo4                                                      
     logo_label4.grid(column=0, row=11,sticky=W) 
 
-# sample data untill sql connection
-    employee_list=("Mike", "John")
-    company_list=("Tesla", "Yamaha")
 
     def db_connect():
 
