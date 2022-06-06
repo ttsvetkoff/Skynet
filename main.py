@@ -30,16 +30,27 @@ import datetime
 root = tk.Tk()
 root.title("Skynet")
 root.geometry('1025x1255+400+5')
+with sqlite3.connect("database.db") as db:
+    cursor = db.cursor()
+query_company = """SELECT distinct(company_name) as class from subcontracting_company"""
+sets = cursor.execute(query_company)
+company_name_list = [s for s, in sets]
 
+query_employee = """SELECT distinct(employee_name) as class from employee"""
+sets2 = cursor.execute(query_employee)  
+employee_name_list = [i for i, in sets2]
+tkinter.messagebox.showinfo(title="DB", message = "Database Loaded")
 #def connect_db():
 #    with sqlite3.connect("database.db") as db:
 #        cursor_visitor = db.cursor()
 #        cursor_subcontracting_company = db.cursor()
 #        cursor_employee  = db.cursor()
 
-def run_app():
-    tkinter.messagebox.showinfo(title="DB", message = "Database Loaded")
-    root.mainloop()
+
+
+    
+
+    
 
 def create_db():
     employee_tuple = [
@@ -72,7 +83,7 @@ def create_db():
         cursor_subcontracting_company = db.cursor()
         cursor_employee  = db.cursor()
 
-    cursor_visitor.execute(""" CREATE TABLE IF NOT EXISTS visitor(visitor_id integer PRIMARY KEY, visitor_name text NOT NULL, visit_date Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP, company_name text, FOREIGN KEY(company_name) REFERENCES subcontracting_company(company_name));""")
+    cursor_visitor.execute(""" CREATE TABLE IF NOT EXISTS visitor(visitor_id integer PRIMARY KEY, visitor_name text NOT NULL, visit_who text, company_name text, FOREIGN KEY(company_name) REFERENCES subcontracting_company(company_name));""")
 
     cursor_subcontracting_company.execute(""" CREATE TABLE IF NOT EXISTS subcontracting_company(company_name text PRIMARY KEY, department_contractors text NOT NULL, FOREIGN KEY(department_contractors) REFERENCES employee(department_employee));""")
 
@@ -80,14 +91,20 @@ def create_db():
 
     cursor_subcontracting_company.executemany("insert into subcontracting_company values (?,?)", subcontracting_tuple)
     cursor_employee.executemany("insert into employee values (?,?,?)", employee_tuple)
+    cursor = db.cursor()
     tkinter.messagebox.showinfo(title="DB", message = "Database Created")
     db.commit()
-    db.close()
-    root.mainloop()
+
+
+
+ 
+
+   
 
 def logic_check():
-    if os.path.exists('database.db'): run_app()
-    else:  create_db()
+    if os.path.exists('database.db'): root.mainloop()
+    else:  create_db() 
+   
 ################################################################################
 #                                                                              #
 # Logo Create                                                                  #
@@ -95,14 +112,50 @@ def logic_check():
 
 
 
-with sqlite3.connect("database.db") as db:
-        cursor = db.cursor()
-        
 
+        
+#text field defs
+
+create_visitor_name_input = tkinter.Entry(root)
+create_visitor_name_input.grid(column=1, row=1)
+
+create_emp_name_dropdown_txt = tkinter.StringVar()
+create_emp_name_dropdown_txt.set("Select Employee Name")
+create_emp_name_dropdown = tkinter.OptionMenu(root, create_emp_name_dropdown_txt, *employee_name_list)
+create_emp_name_dropdown.grid(column=1, row=2)
+
+create_company_name_dropdown_txt = tkinter.StringVar()
+create_company_name_dropdown_txt.set("Select Company Name")
+create_company_name_dropdown = tkinter.OptionMenu(root, create_company_name_dropdown_txt, *company_name_list)
+create_company_name_dropdown.grid(column=1, row=3)
+
+read_visitor_output_text = tkinter.StringVar()
+read_visitor_output_text = set("Visits of all representatives from selected company")
+read_visitor_output = tkinter.Text(root, height=5)
+read_visitor_output.grid(column=1, row=6)
+
+query_company_name_dropdown_txt = tkinter.StringVar()
+query_company_name_dropdown_txt.set("Select Company Name")
+query_company_name_dropdown = tkinter.OptionMenu(root, query_company_name_dropdown_txt, *company_name_list)
+query_company_name_dropdown.grid(column=1, row=5)
+
+
+update_company_name_dropdown_txt = tkinter.StringVar()
+update_company_name_dropdown_txt.set("Select Company Name")
+update_company_name_dropdown = tkinter.OptionMenu(root, update_company_name_dropdown_txt, *company_name_list)
+update_company_name_dropdown.grid(column=1, row=9)
+
+update_company_name_input = tkinter.Entry(root)
+update_company_name_input.grid(column=1, row=10)
 def delete_last_entry():
+    with sqlite3.connect("database.db") as db:
+        cursor = db.cursor()
+
     cursor.execute("""DELETE FROM visitor WHERE visitor_id = (SELECT MAX(visitor_id) FROM visitor);""")
     tkinter.messagebox.showinfo(title="DB", message = "Last Entry Deleted")
     db.commit()
+
+
 
 logo_welcome = Image.open("logo_welcome.png")                                               
 logo_welcome = ImageTk.PhotoImage(logo_welcome)                                               
@@ -139,38 +192,7 @@ employee_list=("Mike", "John")
 company_list=("Tesla", "Yamaha")
     
 
-#text field defs
-create_visitor_name_input = tkinter.Entry(root)
-create_visitor_name_input.grid(column=1, row=1)
 
-create_emp_name_dropdown_txt = tkinter.StringVar()
-create_emp_name_dropdown_txt.set("Select Employee Name")
-create_emp_name_dropdown = tkinter.OptionMenu(root, create_emp_name_dropdown_txt, *employee_list)
-create_emp_name_dropdown.grid(column=1, row=2)
-
-create_company_name_dropdown_txt = tkinter.StringVar()
-create_company_name_dropdown_txt.set("Select Company Name")
-create_company_name_dropdown = tkinter.OptionMenu(root, create_company_name_dropdown_txt, *company_list)
-create_company_name_dropdown.grid(column=1, row=3)
-
-read_visitor_output_text = tkinter.StringVar()
-read_visitor_output_text = set("Visits of all representatives from selected company")
-read_visitor_output = tkinter.Text(root, height=5)
-read_visitor_output.grid(column=1, row=6)
-
-query_company_name_dropdown_txt = tkinter.StringVar()
-query_company_name_dropdown_txt.set("Select Company Name")
-query_company_name_dropdown = tkinter.OptionMenu(root, query_company_name_dropdown_txt, *company_list)
-query_company_name_dropdown.grid(column=1, row=5)
-
-
-update_company_name_dropdown_txt = tkinter.StringVar()
-update_company_name_dropdown_txt.set("Select Company Name")
-update_company_name_dropdown = tkinter.OptionMenu(root, update_company_name_dropdown_txt, *company_list)
-update_company_name_dropdown.grid(column=1, row=9)
-
-update_company_name_input = tkinter.Entry(root)
-update_company_name_input.grid(column=1, row=10)
 
 #button defs
 
