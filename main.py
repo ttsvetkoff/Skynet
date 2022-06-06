@@ -9,6 +9,7 @@
 
 from ctypes.wintypes import SIZE
 from curses import window
+from distutils.cmd import Command
 from email import message
 from multiprocessing import connection
 from re import M, S
@@ -21,6 +22,7 @@ import sqlite3
 from sqlite3 import Cursor
 import os
 import os.path
+import datetime
 ################################################################################
 #                                                                              #
 # Main GUI Windows definition                                                  #
@@ -89,7 +91,19 @@ def logic_check():
 ################################################################################
 #                                                                              #
 # Logo Create                                                                  #
-#################################################################################                                                                     
+#################################################################################         
+
+
+
+with sqlite3.connect("database.db") as db:
+        cursor = db.cursor()
+        
+
+def delete_last_entry():
+    cursor.execute("""DELETE FROM visitor WHERE visitor_id = (SELECT MAX(visitor_id) FROM visitor);""")
+    tkinter.messagebox.showinfo(title="DB", message = "Last Entry Deleted")
+    db.commit()
+
 logo_welcome = Image.open("logo_welcome.png")                                               
 logo_welcome = ImageTk.PhotoImage(logo_welcome)                                               
 logo_label_welcome = tk.Label(image=logo_welcome)                                             
@@ -176,7 +190,7 @@ update_button_text.set("Update record")
 update_button.grid(column=3, row=10)
 
 delete_button_text = tk.StringVar()
-delete_button = tk.Button(root, textvariable=delete_button_text, font="Railway", height=3, width=10)
+delete_button = tk.Button(root, textvariable=delete_button_text, font="Railway", height=3, width=10, command=delete_last_entry)
 delete_button_text.set("Delete record")
 delete_button.grid(column=3, row=12)
 
@@ -208,5 +222,6 @@ update_comp_name_new.grid(columnspan=1, column=0, row=10, sticky=W)
 
 delete_last_visitor = tk.Label(root, text="This button deletes the last visitor", font="Raleway")
 delete_last_visitor.grid(columnspan=1, column=0, row=12, sticky=W)
+
 
 logic_check()
