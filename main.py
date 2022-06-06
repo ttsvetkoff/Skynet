@@ -211,7 +211,7 @@ def create_db():
     cursor_subcontracting_company.executemany("insert into subcontracting_company values (?,?)", subcontracting_tuple)
     cursor_employee.executemany("insert into employee values (?,?,?)", employee_tuple)
     cursor = db.cursor()
-    tkinter.messagebox.showinfo(title="DB", message = "Database Created Please Re-start the Application")
+    tkinter.messagebox.showinfo(title="DB", message = "New database created please restart the application to take effect")
     db.commit()
 
 
