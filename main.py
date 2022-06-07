@@ -64,24 +64,28 @@ def main_app():
         choice = create_emp_name_dropdown_txt.get()
         global employee_choice
         employee_choice = choice
+        #bellow use to show selection in console for manual testing purposes
         print(employee_choice)
     
     def display_selected2(choice):
         choice1 = create_company_name_dropdown_txt.get()
         global company_choice
         company_choice = choice1
+        #bellow use to show selection in console for manual testing purposes
         print(company_choice)
    
     def display_selected3(choice):
         choice2 = query_company_name_dropdown_txt.get()
         global company_choice_query
         company_choice_query = choice2
+        #bellow use to show selection in console for manual testing purposes
         print(company_choice_query)
 
     def display_selected4(choice):
         choice3 = update_employee_name_entry_txt.get()
         global visitor_choice_update
         visitor_choice_update = choice3
+        #bellow use to show selection in console for manual testing purposes
         print(visitor_choice_update)
     #######################################END OF BLOCK########################################################
 
