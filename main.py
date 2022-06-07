@@ -4,8 +4,8 @@
 # Importing OS for operating system operations making it more cross - platform #
 ################################################################################
 
-# create unit tests, create button functions, 
-#create button and text field functions
+# create unit tests, comment out code
+
 
 #from asyncio.windows_events import NULL
 from ctypes.wintypes import SIZE
