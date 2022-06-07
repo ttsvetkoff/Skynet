@@ -44,6 +44,11 @@ def main_app():
     query_employee = """SELECT distinct(employee_name) as class from employee"""
     sets2 = cursor.execute(query_employee)  
     employee_name_list = [i for i, in sets2]
+
+    query_company1 = """SELECT distinct(company_name) as class from subcontracting_company"""
+    sets3 = cursor.execute(query_company1)
+    company_name_list2 = [p for p, in sets3]
+
     tkinter.messagebox.showinfo(title="DB", message = "Database Loaded")
 
     create_visitor_name_input = tkinter.Entry(root)
@@ -53,13 +58,19 @@ def main_app():
         choice = create_emp_name_dropdown_txt.get()
         global employee_choice
         employee_choice = choice
-        print(choice)
+        print(employee_choice)
     
     def display_selected2(choice):
         choice1 = create_company_name_dropdown_txt.get()
         global company_choice
         company_choice = choice1
-        print(choice)
+        print(company_choice)
+    #query work might need to comment out
+    def display_selected3(choice):
+        choice2 = query_company_name_dropdown_txt.get()
+        global company_choice_query
+        company_choice_query = choice2
+        print(company_choice_query)
 
     create_emp_name_dropdown_txt = tkinter.StringVar()
     create_emp_name_dropdown_txt.set("Select Employee Name")
@@ -75,11 +86,11 @@ def main_app():
     read_visitor_output_text = set("Visits of all representatives from selected company")
     read_visitor_output = tkinter.Text(root, height=5)
     read_visitor_output.grid(column=1, row=6)
-
-    #query_company_name_dropdown_txt = tkinter.StringVar()
-    #query_company_name_dropdown_txt.set("Select Company Name")
-    #query_company_name_dropdown = tkinter.OptionMenu(root, query_company_name_dropdown_txt, *company_name_list)
-    #query_company_name_dropdown.grid(column=1, row=5)
+    #query work might need to note out again
+    query_company_name_dropdown_txt = tkinter.StringVar()
+    query_company_name_dropdown_txt.set("Select Company Name")
+    query_company_name_dropdown = tkinter.OptionMenu(root, query_company_name_dropdown_txt, *company_name_list2, command=display_selected3)
+    query_company_name_dropdown.grid(column=1, row=5)
 
 
     #update_company_name_entry_txt = tkinter.StringVar()
@@ -136,22 +147,22 @@ def main_app():
 
     def add_record():
         db_connect()
-        #display_selected(choice)
-        #display_selected2(choice)
-        #displ1 = display_selected()
-        #displ2 = display_selected2()
         addNewVisitor = create_visitor_name_input.get()
         cursor.execute("INSERT INTO visitor(visitor_name, visit_who, company_name) VALUES (?, ?, ?)",(addNewVisitor, employee_choice, company_choice))
         tkinter.messagebox.showinfo(title="DB", message = "New Visitor Entry Added")
         db.commit() 
 
+    
     def query_record():
         db_connect()
-        results = cursor.execute("SELECT company_name FROM subcontracting_company ")
+        read_visitor_output.selection_clear()
+        results = cursor.execute("SELECT visitor_name FROM visitor WHERE company_name = ?", (company_choice_query,))
         for row in results:
                 read_visitor_output.insert(0.0, (row[0]))
                 read_visitor_output.insert(0.0,"\n")
         
+    
+
     def update_record():
         db_connect() 
         cursor.execute("UPDATE employee SET department_employee = Picking WHERE employee_id = 7")
