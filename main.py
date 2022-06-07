@@ -179,13 +179,16 @@ def main_app():
         print(updateEmployee_new)
         #visitor_choice_update
 
-        cursor.execute("UPDATE employee SET department_employee = Picking WHERE employee_id = 7")
+        #cursor.execute("UPDATE employee SET department_employee = Picking WHERE employee_id = 7")
 
         tkinter.messagebox.showinfo(title="DB", message = "Existing Record Updated")
         db.commit() 
             
     def delete_record():
         read_visitor_output.delete(0.0, "end")
+
+    def delete_record1():
+        update_employee_name_input.delete(0, "end")    
          
 
     create_button_text = tk.StringVar()
@@ -207,6 +210,11 @@ def main_app():
     update_button = tk.Button(root, textvariable=update_button_text, font="Railway", height=3, width=10, command=update_record)
     update_button_text.set("Update record")
     update_button.grid(column=3, row=10)
+
+    clear_update_button_text = tk.StringVar()
+    clear_update_button = tk.Button(root, textvariable=clear_update_button_text, font="Railway", height=3, width=10, command=delete_record1)
+    clear_update_button_text.set("Clear Selection")
+    clear_update_button.grid(column=4, row=10)
 
     delete_button_text = tk.StringVar()
     delete_button = tk.Button(root, textvariable=delete_button_text, font="Railway", height=3, width=10, command=delete_last_entry)
