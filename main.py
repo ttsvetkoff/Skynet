@@ -36,7 +36,7 @@ def logic_check():
 def main_app():  
     with sqlite3.connect("database.db") as db:
         cursor = db.cursor()
-
+    
     query_company = """SELECT distinct(company_name) as class from subcontracting_company"""
     sets = cursor.execute(query_company)
     company_name_list = [s for s, in sets]
@@ -48,6 +48,10 @@ def main_app():
     query_company1 = """SELECT distinct(company_name) as class from subcontracting_company"""
     sets3 = cursor.execute(query_company1)
     company_name_list2 = [p for p, in sets3]
+
+    query_visitor = """SELECT distinct(visitor_name) as class from visitor"""
+    sets3 = cursor.execute(query_visitor)
+    visitor_list = [d for d, in sets3]
 
     tkinter.messagebox.showinfo(title="DB", message = "Database Loaded")
 
@@ -72,6 +76,12 @@ def main_app():
         company_choice_query = choice2
         print(company_choice_query)
 
+    def display_selected4(choice):
+        choice3 = update_employee_name_entry_txt.get()
+        global visitor_choice_update
+        visitor_choice_update = choice3
+        print(visitor_choice_update)
+
     create_emp_name_dropdown_txt = tkinter.StringVar()
     create_emp_name_dropdown_txt.set("Select Employee Name")
     create_emp_name_dropdown = tkinter.OptionMenu(root, create_emp_name_dropdown_txt, *employee_name_list, command=display_selected)
@@ -82,11 +92,10 @@ def main_app():
     create_company_name_dropdown = tkinter.OptionMenu(root, create_company_name_dropdown_txt, *company_name_list, command=display_selected2)
     create_company_name_dropdown.grid(column=1, row=3)
 
-    read_visitor_output_text = tkinter.StringVar()
-    read_visitor_output_text = set("Visits of all representatives from selected company")
+ 
     read_visitor_output = tkinter.Text(root, height=5)
     read_visitor_output.grid(column=1, row=6)
-    #query work might need to note out again
+  
     query_company_name_dropdown_txt = tkinter.StringVar()
     query_company_name_dropdown_txt.set("Select Company Name")
     query_company_name_dropdown = tkinter.OptionMenu(root, query_company_name_dropdown_txt, *company_name_list2, command=display_selected3)
@@ -95,13 +104,15 @@ def main_app():
 
     #update_company_name_entry_txt = tkinter.StringVar()
     #update_company_name_entry_txt.set("Select Company Name")
-    update_company_name_entry = tkinter.Entry(root)
-    update_company_name_entry.grid(column=1, row=9)
-
-    update_company_name_input = tkinter.Entry(root)
-    update_company_name_input.grid(column=1, row=10)
-    updateCompany_to_update = update_company_name_entry.get()
-    updateCompany_new = update_company_name_input.get()
+    update_employee_name_entry_txt = tkinter.StringVar()
+    update_employee_name_entry_txt.set("Select visitor name")
+    update_employee_name_entry = tkinter.OptionMenu(root, update_employee_name_entry_txt, *visitor_list, command=display_selected4)
+    update_employee_name_entry.grid(column=1, row=9)
+    
+    update_employee_name_input = tkinter.Entry(root)
+    update_employee_name_input.grid(column=1, row=10)
+    
+    
 
     logo_welcome = Image.open("logo_welcome.png")                                               
     logo_welcome = ImageTk.PhotoImage(logo_welcome)                                               
@@ -164,7 +175,12 @@ def main_app():
 
     def update_record():
         db_connect() 
+        updateEmployee_new = update_employee_name_input.get()
+        print(updateEmployee_new)
+        #visitor_choice_update
+
         cursor.execute("UPDATE employee SET department_employee = Picking WHERE employee_id = 7")
+
         tkinter.messagebox.showinfo(title="DB", message = "Existing Record Updated")
         db.commit() 
             
@@ -215,7 +231,7 @@ def main_app():
 
 # Labels Update Record
 
-    update_comp_name = tk.Label(root, text="Please select company to rename", font="Raleway")
+    update_comp_name = tk.Label(root, text="Please select visitor to rename", font="Raleway")
     update_comp_name.grid(columnspan=1, column=0, row=9, sticky=W)
 
     update_comp_name_new = tk.Label(root, text="Please type the new name", font="Raleway")
