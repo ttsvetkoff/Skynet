@@ -176,10 +176,10 @@ def main_app():
     def update_record():
         db_connect() 
         updateEmployee_new = update_employee_name_input.get()
-        print(updateEmployee_new)
+        #print(updateEmployee_new)
         #visitor_choice_update
 
-        #cursor.execute("UPDATE employee SET department_employee = Picking WHERE employee_id = 7")
+        cursor.execute(("UPDATE visitor SET visitor_name = ? WHERE visitor_name = ?"), (updateEmployee_new, visitor_choice_update,))
 
         tkinter.messagebox.showinfo(title="DB", message = "Existing Record Updated")
         db.commit() 
