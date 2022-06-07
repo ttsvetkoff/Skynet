@@ -50,8 +50,8 @@ def main_app():
     company_name_list2 = [p for p, in sets3]
 
     query_visitor = """SELECT distinct(visitor_name) as class from visitor"""
-    sets3 = cursor.execute(query_visitor)
-    visitor_list = [d for d, in sets3]
+    sets4 = cursor.execute(query_visitor)
+    visitor_list = [d for d, in sets4]
     #######################################END OF BLOCK########################################################
     
     #free text box used for typing the visitor name in insert function 
@@ -304,7 +304,19 @@ def create_db():
             ("Shutter Door Solutions", "Facilities"),
             ("FloorRite", "Facilities"),
             ("Painting Solutions", "Facilities")
-]
+]   
+    visitor_tuple = [
+            (1, "George Michael", "Karla Murphy", "FloorRite"),
+            (2, "Sis Bo", "Karla Murphy", "FloorRite"),
+            (3, "Laura Markles", "Karla Murphy", "FloorRite"),
+            (4, "Gym Borris", "Dave Brixton", "FloorRite"),
+            (5, "Dave Trixton", "Dave Brixton", "Automation Solutions"),
+            (6, "Zlatan Ibrahim", "Tahir Fasterson", "Automation Solutions"),
+            (7, "Monster Fasterson", "Tahir Fasterson", "Metapackt"),
+            (8, "Jack Black", "Tahir Fasterson", "Metapackt"),
+            (9, "Jack Daniels", "Tahir Fasterson", "Metapackt"),
+            (10,"Milton Clemens", "Tahir Fasterson", "Metapackt")
+    ]      
     #######################################END OF BLOCK######################################################## 
     
     #create and connect to a DB
@@ -312,6 +324,7 @@ def create_db():
         cursor_visitor = db.cursor()
         cursor_subcontracting_company = db.cursor()
         cursor_employee  = db.cursor()
+        cursor_visitor = db.cursor()
 
     #sql insert execution populating the DB
     cursor_visitor.execute(""" CREATE TABLE IF NOT EXISTS visitor(visitor_id integer PRIMARY KEY, visitor_name text NOT NULL, visit_who text, company_name text, FOREIGN KEY(company_name) REFERENCES subcontracting_company(company_name));""")
@@ -319,9 +332,10 @@ def create_db():
     cursor_subcontracting_company.execute(""" CREATE TABLE IF NOT EXISTS subcontracting_company(company_name text PRIMARY KEY, department_contractors text NOT NULL, FOREIGN KEY(department_contractors) REFERENCES employee(department_employee));""")
 
     cursor_employee.execute(""" CREATE TABLE IF NOT EXISTS employee(employee_ID integer PRIMARY KEY, employee_name text NOT NULL, department_employee text NOT NULL);""")
-
+    cursor_visitor.executemany("insert into visitor values (?,?,?,?)", visitor_tuple)
     cursor_subcontracting_company.executemany("insert into subcontracting_company values (?,?)", subcontracting_tuple)
     cursor_employee.executemany("insert into employee values (?,?,?)", employee_tuple)
+
     cursor = db.cursor()
     tkinter.messagebox.showinfo(title="DB", message = "New database was created, please restart the application to activate it!")
     db.commit()
