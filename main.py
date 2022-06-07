@@ -7,12 +7,15 @@
 # create unit tests, create button functions, 
 #create button and text field functions
 
+from asyncio.windows_events import NULL
 from ctypes.wintypes import SIZE
 from curses import window
 from distutils.cmd import Command
 from email import message
+from lzma import CHECK_CRC32
 from multiprocessing import connection
-from re import M, S
+from re import M, S, X
+from secrets import choice
 import tkinter as tk
 from tkinter import E, N, W, ttk
 import tkinter
@@ -25,7 +28,7 @@ import os.path
 
 root = tk.Tk()
 root.title("Skynet")
-root.geometry('1025x1255+400+5')
+root.geometry('1095x1350+400+5')
 def logic_check():
     if os.path.exists('database.db'): main_app()
     else:  create_db() 
@@ -41,17 +44,26 @@ def main_app():
     sets2 = cursor.execute(query_employee)  
     employee_name_list = [i for i, in sets2]
     tkinter.messagebox.showinfo(title="DB", message = "Database Loaded")
+
     create_visitor_name_input = tkinter.Entry(root)
     create_visitor_name_input.grid(column=1, row=1)
+    global choice
+    def display_selected(choice):
+        choice = create_emp_name_dropdown_txt.get()
+        print(choice)
+    
+    def display_selected2(choice):
+        choice1 = create_company_name_dropdown_txt.get()
+        print(choice)
 
     create_emp_name_dropdown_txt = tkinter.StringVar()
     create_emp_name_dropdown_txt.set("Select Employee Name")
-    create_emp_name_dropdown = tkinter.OptionMenu(root, create_emp_name_dropdown_txt, *employee_name_list)
+    create_emp_name_dropdown = tkinter.OptionMenu(root, create_emp_name_dropdown_txt, *employee_name_list, command=display_selected)
     create_emp_name_dropdown.grid(column=1, row=2)
 
     create_company_name_dropdown_txt = tkinter.StringVar()
     create_company_name_dropdown_txt.set("Select Company Name")
-    create_company_name_dropdown = tkinter.OptionMenu(root, create_company_name_dropdown_txt, *company_name_list)
+    create_company_name_dropdown = tkinter.OptionMenu(root, create_company_name_dropdown_txt, *company_name_list, command=display_selected2)
     create_company_name_dropdown.grid(column=1, row=3)
 
     read_visitor_output_text = tkinter.StringVar()
@@ -59,19 +71,21 @@ def main_app():
     read_visitor_output = tkinter.Text(root, height=5)
     read_visitor_output.grid(column=1, row=6)
 
-    query_company_name_dropdown_txt = tkinter.StringVar()
-    query_company_name_dropdown_txt.set("Select Company Name")
-    query_company_name_dropdown = tkinter.OptionMenu(root, query_company_name_dropdown_txt, *company_name_list)
-    query_company_name_dropdown.grid(column=1, row=5)
+    #query_company_name_dropdown_txt = tkinter.StringVar()
+    #query_company_name_dropdown_txt.set("Select Company Name")
+    #query_company_name_dropdown = tkinter.OptionMenu(root, query_company_name_dropdown_txt, *company_name_list)
+    #query_company_name_dropdown.grid(column=1, row=5)
 
 
-    update_company_name_dropdown_txt = tkinter.StringVar()
-    update_company_name_dropdown_txt.set("Select Company Name")
-    update_company_name_dropdown = tkinter.OptionMenu(root, update_company_name_dropdown_txt, *company_name_list)
-    update_company_name_dropdown.grid(column=1, row=9)
+    #update_company_name_entry_txt = tkinter.StringVar()
+    #update_company_name_entry_txt.set("Select Company Name")
+    update_company_name_entry = tkinter.Entry(root)
+    update_company_name_entry.grid(column=1, row=9)
 
     update_company_name_input = tkinter.Entry(root)
     update_company_name_input.grid(column=1, row=10)
+    updateCompany_to_update = update_company_name_entry.get()
+    updateCompany_new = update_company_name_input.get()
 
     logo_welcome = Image.open("logo_welcome.png")                                               
     logo_welcome = ImageTk.PhotoImage(logo_welcome)                                               
@@ -111,23 +125,29 @@ def main_app():
 
     def delete_last_entry():
         db_connect()
-        #cursor.execute("""DELETE FROM visitor WHERE visitor_id = (SELECT MAX(visitor_id) FROM visitor);""")
+        cursor.execute("""DELETE FROM visitor WHERE visitor_id = (SELECT MAX(visitor_id) FROM visitor);""")
         tkinter.messagebox.showinfo(title="DB", message = "Last Visitor Entry Deleted")
         db.commit()   
 
     def add_record():
         db_connect()
-        #cursor.execute(""");""")
+        displ1 = display_selected(choice)
+        displ2 = display_selected2(choice)
+        addNewVisitor = create_visitor_name_input.get()
+        cursor.execute("INSERT INTO visitor(visitor_name, visit_who, company_name) VALUES (?, ?, ?)",(addNewVisitor, displ1, displ2))
         tkinter.messagebox.showinfo(title="DB", message = "New Visitor Entry Added")
         db.commit() 
 
     def query_record():
         db_connect()
-        #cursor.execute(""");""")
+        results = cursor.execute("SELECT company_name FROM subcontracting_company ")
+        for row in results:
+                read_visitor_output.insert(0.0, (row[0]))
+                read_visitor_output.insert(0.0,"\n")
         
     def update_record():
-        db_connect()
-        #cursor.execute(""");""")
+        db_connect() 
+        cursor.execute("UPDATE employee SET department_employee = Picking WHERE employee_id = 7")
         tkinter.messagebox.showinfo(title="DB", message = "Existing Record Updated")
         db.commit() 
             
@@ -165,7 +185,7 @@ def main_app():
 
 # Labels Read Record
 
-    read_comp_name = tk.Label(root, text="Please select company name to query", font="Raleway")
+    read_comp_name = tk.Label(root, text="This shows list of all subcontracting companies", font="Raleway")
     read_comp_name.grid(columnspan=1, column=0, row=5, sticky=W)
 
 # Labels Update Record
