@@ -7,7 +7,7 @@
 # create unit tests, create button functions, 
 #create button and text field functions
 
-from asyncio.windows_events import NULL
+#from asyncio.windows_events import NULL
 from ctypes.wintypes import SIZE
 from curses import window
 from distutils.cmd import Command
@@ -20,6 +20,7 @@ import tkinter as tk
 from tkinter import E, N, W, ttk
 import tkinter
 from tkinter import messagebox
+#from typing_extensions import Self
 from PIL import Image, ImageTk
 import sqlite3
 from sqlite3 import Cursor
@@ -50,10 +51,14 @@ def main_app():
     global choice
     def display_selected(choice):
         choice = create_emp_name_dropdown_txt.get()
+        global employee_choice
+        employee_choice = choice
         print(choice)
     
     def display_selected2(choice):
         choice1 = create_company_name_dropdown_txt.get()
+        global company_choice
+        company_choice = choice1
         print(choice)
 
     create_emp_name_dropdown_txt = tkinter.StringVar()
@@ -131,10 +136,12 @@ def main_app():
 
     def add_record():
         db_connect()
-        displ1 = display_selected(choice)
-        displ2 = display_selected2(choice)
+        #display_selected(choice)
+        #display_selected2(choice)
+        #displ1 = display_selected()
+        #displ2 = display_selected2()
         addNewVisitor = create_visitor_name_input.get()
-        cursor.execute("INSERT INTO visitor(visitor_name, visit_who, company_name) VALUES (?, ?, ?)",(addNewVisitor, displ1, displ2))
+        cursor.execute("INSERT INTO visitor(visitor_name, visit_who, company_name) VALUES (?, ?, ?)",(addNewVisitor, employee_choice, company_choice))
         tkinter.messagebox.showinfo(title="DB", message = "New Visitor Entry Added")
         db.commit() 
 
