@@ -155,7 +155,6 @@ def main_app():
     
     def query_record():
         db_connect()
-        read_visitor_output.selection_clear()
         results = cursor.execute("SELECT visitor_name FROM visitor WHERE company_name = ?", (company_choice_query,))
         for row in results:
                 read_visitor_output.insert(0.0, (row[0]))
@@ -169,6 +168,9 @@ def main_app():
         tkinter.messagebox.showinfo(title="DB", message = "Existing Record Updated")
         db.commit() 
             
+    def delete_record():
+        read_visitor_output.delete(0.0, "end")
+         
 
     create_button_text = tk.StringVar()
     create_button = tk.Button(root, textvariable=create_button_text, font="Railway", height=3, width=10, command=add_record)
@@ -179,6 +181,11 @@ def main_app():
     read_button = tk.Button(root, textvariable=read_button_text, font="Railway", height=3, width=10, command=query_record)
     read_button_text.set("Query record")
     read_button.grid(column=3, row=5)
+
+    clear_button_text = tk.StringVar()
+    clear_button = tk.Button(root, textvariable=clear_button_text, font="Railway", height=3, width=10, command=delete_record)
+    clear_button_text.set("Clear selection")
+    clear_button.grid(column=4, row=5)    
 
     update_button_text = tk.StringVar()
     update_button = tk.Button(root, textvariable=update_button_text, font="Railway", height=3, width=10, command=update_record)
@@ -203,7 +210,7 @@ def main_app():
 
 # Labels Read Record
 
-    read_comp_name = tk.Label(root, text="This shows list of all subcontracting companies", font="Raleway")
+    read_comp_name = tk.Label(root, text="Show all visitors from company", font="Raleway")
     read_comp_name.grid(columnspan=1, column=0, row=5, sticky=W)
 
 # Labels Update Record
