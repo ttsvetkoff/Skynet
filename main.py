@@ -206,7 +206,12 @@ def main_app():
     #define function clearing input box in the update section of the GUI  
     def delete_record1():
         update_employee_name_input.delete(0, "end")    
-    #######################################END OF BLOCK########################################################     
+    #######################################END OF BLOCK########################################################   
+     
+    #define function clearing input box in the update section of the GUI  
+    def delete_record2():
+        create_visitor_name_input.delete(0, "end")    
+    #######################################END OF BLOCK######################################################## 
 
     #Definitions of all buttons giving their attributes for position and appearance in the GUI, also assigning the commands(functions defined above)
     create_button_text = tk.StringVar()
@@ -238,6 +243,11 @@ def main_app():
     delete_button = tk.Button(root, textvariable=delete_button_text, font="Railway", height=3, width=10, command=delete_last_entry)
     delete_button_text.set("Delete record")
     delete_button.grid(column=3, row=12)
+
+    clear_add_button_text = tk.StringVar()
+    clear_add_button = tk.Button(root, textvariable=clear_update_button_text, font="Railway", height=3, width=10, command=delete_record2)
+    clear_add_button_text.set("Clear Selection")
+    clear_add_button.grid(column=4, row=2)
 
 #######################################END OF BLOCK########################################################    
 
