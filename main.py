@@ -1,12 +1,3 @@
-################################################################################
-# Importing tkinter and Pillow libraries used for the GUI                      #
-# Importing oracledb for the SQL CRUD Operations                               #
-# Importing OS for operating system operations making it more cross - platform #
-################################################################################
-
-# create unit tests, comment out code
-
-
 #from asyncio.windows_events import NULL
 from ctypes.wintypes import SIZE
 from curses import window
@@ -30,9 +21,11 @@ import os.path
 root = tk.Tk()
 root.title("Skynet")
 root.geometry('1095x1350+400+5')
+
 def logic_check():
     if os.path.exists('database.db'): main_app()
-    else:  create_db() 
+    else:  create_db()
+
 def main_app():  
     with sqlite3.connect("database.db") as db:
         cursor = db.cursor()
@@ -57,7 +50,9 @@ def main_app():
 
     create_visitor_name_input = tkinter.Entry(root)
     create_visitor_name_input.grid(column=1, row=1)
+
     global choice
+
     def display_selected(choice):
         choice = create_emp_name_dropdown_txt.get()
         global employee_choice
@@ -69,7 +64,7 @@ def main_app():
         global company_choice
         company_choice = choice1
         print(company_choice)
-    #query work might need to comment out
+   
     def display_selected3(choice):
         choice2 = query_company_name_dropdown_txt.get()
         global company_choice_query
@@ -92,7 +87,6 @@ def main_app():
     create_company_name_dropdown = tkinter.OptionMenu(root, create_company_name_dropdown_txt, *company_name_list, command=display_selected2)
     create_company_name_dropdown.grid(column=1, row=3)
 
- 
     read_visitor_output = tkinter.Text(root, height=5)
     read_visitor_output.grid(column=1, row=6)
   
@@ -101,9 +95,6 @@ def main_app():
     query_company_name_dropdown = tkinter.OptionMenu(root, query_company_name_dropdown_txt, *company_name_list2, command=display_selected3)
     query_company_name_dropdown.grid(column=1, row=5)
 
-
-    #update_company_name_entry_txt = tkinter.StringVar()
-    #update_company_name_entry_txt.set("Select Company Name")
     update_employee_name_entry_txt = tkinter.StringVar()
     update_employee_name_entry_txt.set("Select visitor name")
     update_employee_name_entry = tkinter.OptionMenu(root, update_employee_name_entry_txt, *visitor_list, command=display_selected4)
@@ -112,8 +103,6 @@ def main_app():
     update_employee_name_input = tkinter.Entry(root)
     update_employee_name_input.grid(column=1, row=10)
     
-    
-
     logo_welcome = Image.open("logo_welcome.png")                                               
     logo_welcome = ImageTk.PhotoImage(logo_welcome)                                               
     logo_label_welcome = tk.Label(image=logo_welcome)                                             
@@ -146,7 +135,6 @@ def main_app():
 
 
     def db_connect():
-
         with sqlite3.connect("database.db") as db:
             cursor = db.cursor()
 
@@ -171,16 +159,10 @@ def main_app():
                 read_visitor_output.insert(0.0, (row[0]))
                 read_visitor_output.insert(0.0,"\n")
         
-    
-
     def update_record():
         db_connect() 
         updateEmployee_new = update_employee_name_input.get()
-        #print(updateEmployee_new)
-        #visitor_choice_update
-
         cursor.execute(("UPDATE visitor SET visitor_name = ? WHERE visitor_name = ?"), (updateEmployee_new, visitor_choice_update,))
-
         tkinter.messagebox.showinfo(title="DB", message = "Existing Record Updated")
         db.commit() 
             
@@ -294,7 +276,5 @@ def create_db():
     cursor = db.cursor()
     tkinter.messagebox.showinfo(title="DB", message = "New database was created, please restart the application to activate it!")
     db.commit()
-
-
-
+    
 logic_check()
