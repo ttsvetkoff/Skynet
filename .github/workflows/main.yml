@@ -16,3 +16,4 @@ jobs:
         mypy-flags: ''
         fail-on-isort: false
         skip-flake8: true
+        skip-mypy: true
