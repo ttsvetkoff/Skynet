@@ -1,3 +1,4 @@
+name: CI push from testing to staging
 on: 
   push:
     branches: testing

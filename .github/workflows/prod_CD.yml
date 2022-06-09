@@ -1,0 +1,21 @@
+name: CD pull from staging to main
+on:
+  pull_request:
+    branches: master
+
+jobs:
+  python-lint:
+    runs-on: ubuntu-latest
+    name: CD workflow
+    steps:
+        
+    - uses: actions/checkout@v2
+    - name: Package Application
+      uses: JackMcKew/pyinstaller-action-windows@main
+      with:
+        path: src
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: skynet
+        path: src/dist/windows
