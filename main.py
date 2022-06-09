@@ -1,15 +1,12 @@
-#Importing all libraries required for the application
-#from asyncio.windows_events import NULL
-from ctypes.wintypes import SIZE
-from curses import window
-from distutils.cmd import Command
-from email import message
-from lzma import CHECK_CRC32
-from multiprocessing import connection
-from re import M, S, X
-from secrets import choice
+# Importing all libraries required for the application
+# from asyncio.windows_events import NULL
+# from ctypes.wintypes import SIZE
+# from curses import window
+# from distutils.cmd import Command
+# from re import M, S, X
+# from secrets import choice
 import tkinter as tk
-from tkinter import E, N, W, ttk
+from tkinter import W, ttk
 import tkinter
 from tkinter import messagebox
 #from typing_extensions import Self
