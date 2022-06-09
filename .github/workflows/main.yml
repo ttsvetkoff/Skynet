@@ -5,8 +5,6 @@ jobs:
     runs-on: ubuntu-latest
     name: CI workflow
     steps:
-    - name: checkout source repo
-      uses: actions/checkout@main
 
     - name: linting
       uses: programmingwithalex/pylinter@main
@@ -17,3 +15,11 @@ jobs:
         fail-on-isort: false
         skip-flake8: true
         skip-mypy: true
+
+    - name: Merge test -> stage
+      uses: devmasx/merge-branch@master
+      with:
+        type: now
+        from_branch: test
+        target_branch: stage
+        github_token: ${{ github.token }}
