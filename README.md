@@ -1,4 +1,7 @@
 # Skynet
+
+[![CD pull from staging to main](https://github.com/ttsvetkoff/Skynet/actions/workflows/prod_CD.yml/badge.svg)](https://github.com/ttsvetkoff/Skynet/actions/workflows/prod_CD.yml)
+
 GUI application written in Python with sqlite3 and tkinter
 
 It executes CRUD statements to sqlite database
