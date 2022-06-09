@@ -1,5 +1,5 @@
-#IF this is in master CD works
-#IF this in staging CI works
+#This comment is to confirm success with Staging -> Master pipeline
+#This comment is to confirm success with Testing -> Staging pipeline
 #Importing all libraries required for the application
 #from asyncio.windows_events import NULL
 from ctypes.wintypes import SIZE
