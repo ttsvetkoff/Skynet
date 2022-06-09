@@ -27,23 +27,28 @@ def main_app():
     # popup message notifying DB is loaded and accessible
     tkinter.messagebox.showinfo(title="DB", message = "Database Loaded")        
     # query block that creates a array of db column contains used for the drop down menus - company name list
+
+    
     query_company = """SELECT distinct(company_name) as class from subcontracting_company"""
     sets = cursor.execute(query_company)
     company_name_list = [s for s, in sets]
     
+
     query_employee = """SELECT distinct(employee_name) as class from employee"""
     sets2 = cursor.execute(query_employee)  
     employee_name_list = [i for i, in sets2]
     
+
     query_company1 = """SELECT distinct(company_name) as class from subcontracting_company"""
     sets3 = cursor.execute(query_company1)
     company_name_list2 = [p for p, in sets3]
 
+
     query_visitor = """SELECT distinct(visitor_name) as class from visitor"""
     sets3 = cursor.execute(query_visitor)
     visitor_list = [d for d, in sets3]
-    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # END OF BLOCK# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
-    
+
+
     # free text box used for typing the visitor name in insert function 
     create_visitor_name_input = tkinter.Entry(root)
     create_visitor_name_input.grid(column=1, row=1)
@@ -77,7 +82,7 @@ def main_app():
         visitor_choice_update = choice3
         # bellow use to show selection in console for manual testing purposes
         print(visitor_choice_update)
-    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # END OF BLOCK# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+
 
     # dropdown menu definitions used for the INSERT function
     create_emp_name_dropdown_txt = tkinter.StringVar()
@@ -89,31 +94,31 @@ def main_app():
     create_company_name_dropdown_txt.set("Select Company Name")
     create_company_name_dropdown = tkinter.OptionMenu(root, create_company_name_dropdown_txt, *company_name_list, command=display_selected2)
     create_company_name_dropdown.grid(column=1, row=3)
-    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # END OF BLOCK# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+
 
     # text box definitons which outputs the read function results
     read_visitor_output = tkinter.Text(root, height=5)
     read_visitor_output.grid(column=1, row=6)
-    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # END OF BLOCK# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+
 
     # dropdown definitons used to select the company we want to query and output in previous block
     query_company_name_dropdown_txt = tkinter.StringVar()
     query_company_name_dropdown_txt.set("Select Company Name")
     query_company_name_dropdown = tkinter.OptionMenu(root, query_company_name_dropdown_txt, *company_name_list2, command=display_selected3)
     query_company_name_dropdown.grid(column=1, row=5)
-    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # END OF BLOCK# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+
 
     # dropdown definitons used to select the visitor we want to rename
     update_employee_name_entry_txt = tkinter.StringVar()
     update_employee_name_entry_txt.set("Select visitor name")
     update_employee_name_entry = tkinter.OptionMenu(root, update_employee_name_entry_txt, *visitor_list, command=display_selected4)
     update_employee_name_entry.grid(column=1, row=9)
-    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # END OF BLOCK# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+
 
     # text box definitons which inputs the new name of the visitor we want to rename
     update_employee_name_input = tkinter.Entry(root)
     update_employee_name_input.grid(column=1, row=10)
-    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # END OF BLOCK# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+
 
     # block which defines all the images imported as function title in the GUI
     logo_welcome = Image.open("logo_welcome.png")                                               
@@ -145,13 +150,13 @@ def main_app():
     logo_label4 = tk.Label(image=logo4)                                             
     logo_label4.image = logo4                                                      
     logo_label4.grid(column=0, row=11,sticky=W) 
-    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # END OF BLOCK# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+
 
     # define db connection function as I will be using this for every command I execute
     def db_connect():
         with sqlite3.connect("database.db") as db:
             cursor = db.cursor()
-    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # END OF BLOCK# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+
 
     # define sql delete function
     def delete_last_entry():
@@ -159,7 +164,7 @@ def main_app():
         cursor.execute("""DELETE FROM visitor WHERE visitor_id = (SELECT MAX(visitor_id) FROM visitor);""")
         tkinter.messagebox.showinfo(title="DB", message = "Last Visitor Entry Deleted")
         db.commit()   
-    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # END OF BLOCK# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+
 
     # define sql insert function
     def add_record():
@@ -168,8 +173,8 @@ def main_app():
         cursor.execute("INSERT INTO visitor(visitor_name, visit_who, company_name) VALUES (?, ?, ?)",(addNewVisitor, employee_choice, company_choice))
         tkinter.messagebox.showinfo(title="DB", message = "New Visitor Entry Added")
         db.commit() 
-    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # END OF BLOCK# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
-    
+
+
     # define sql query function
     def query_record():
         db_connect()
@@ -177,8 +182,8 @@ def main_app():
         for row in results:
                 read_visitor_output.insert(0.0, (row[0]))
                 read_visitor_output.insert(0.0,"\n")
-    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # END OF BLOCK# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #    
-    
+
+
     # define sql update function  
     def update_record():
         db_connect() 
@@ -186,17 +191,17 @@ def main_app():
         cursor.execute(("UPDATE visitor SET visitor_name = ? WHERE visitor_name = ?"), (updateEmployee_new, visitor_choice_update,))
         tkinter.messagebox.showinfo(title="DB", message = "Existing Record Updated")
         db.commit() 
-    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # END OF BLOCK# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+
 
     # define function clearing output box in the read section of the GUI      
     def delete_record():
         read_visitor_output.delete(0.0, "end")
-    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # END OF BLOCK# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+
 
     # define function clearing input box in the update section of the GUI  
     def delete_record1():
         update_employee_name_input.delete(0, "end")    
-    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # END OF BLOCK# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #      
+
 
     # Definitions of all buttons giving their attributes for position and appearance in the GUI, also assigning the commands(functions defined above)
     create_button_text = tk.StringVar()
@@ -229,7 +234,6 @@ def main_app():
     delete_button_text.set("Delete record")
     delete_button.grid(column=3, row=12)
 
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # END OF BLOCK# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #     
 
 #  Labels Create Record
 
@@ -241,13 +245,13 @@ def main_app():
 
     create_comp_name = tk.Label(root, text="Please select company name", font="Raleway")
     create_comp_name.grid(columnspan=1, column=0, row=3,sticky=W)
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # END OF BLOCK# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
+
 
 #  Labels Read Record
 
     read_comp_name = tk.Label(root, text="Show all visitors from company", font="Raleway")
     read_comp_name.grid(columnspan=1, column=0, row=5, sticky=W)
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # END OF BLOCK# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
+
 
 #  Labels Update Record
 
@@ -256,14 +260,14 @@ def main_app():
 
     update_comp_name_new = tk.Label(root, text="Please type the new name", font="Raleway")
     update_comp_name_new.grid(columnspan=1, column=0, row=10, sticky=W)
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # END OF BLOCK# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
+
 
 #  Labels Delete Record
 
     delete_last_visitor = tk.Label(root, text="This button deletes the last visitor", font="Raleway")
     delete_last_visitor.grid(columnspan=1, column=0, row=12, sticky=W)
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # END OF BLOCK# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
-    
+
+
     # calling gui mainloop
     root.mainloop()
 
@@ -295,8 +299,8 @@ def create_db():
             ("FloorRite", "Facilities"),
             ("Painting Solutions", "Facilities")
 ]
-    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # END OF BLOCK# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
-    
+
+
     # create and connect to a DB
     with sqlite3.connect("database.db") as db:
         cursor_visitor = db.cursor()
@@ -315,6 +319,7 @@ def create_db():
     cursor = db.cursor()
     tkinter.messagebox.showinfo(title="DB", message = "New database was created, please restart the application to activate it!")
     db.commit()
-    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # END OF BLOCK# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
+
 
 logic_check()
+
