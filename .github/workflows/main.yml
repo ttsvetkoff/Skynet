@@ -15,3 +15,4 @@ jobs:
         flake8-flags: ''
         mypy-flags: ''
         fail-on-isort: false
+        skip-flake8: true
