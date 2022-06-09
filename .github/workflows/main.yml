@@ -1,0 +1,25 @@
+on: [push, pull_request]
+
+jobs:
+  python-lint:
+    runs-on: ubuntu-latest
+    name: CI workflow
+    steps:
+
+    - name: linting
+      uses: programmingwithalex/pylinter@main
+      with:
+        python-root: './main.py'
+        flake8-flags: ''
+        mypy-flags: ''
+        fail-on-isort: false
+        skip-flake8: true
+        skip-mypy: true
+
+    - name: Merge test -> stage
+      uses: devmasx/merge-branch@master
+      with:
+        type: now
+        from_branch: test
+        target_branch: database_work
+        github_token: ${{ github.token }}
