@@ -4,19 +4,36 @@ on:
     branches: master
 
 jobs:
-  build:
-
     runs-on: ubuntu-latest
+    name: CD workflow
 
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Package Application
-      uses: JackMcKew/pyinstaller-action-windows@main
+    - name: Merge stage -> master
+      uses: devmasx/merge-branch@master
       with:
-        path: ./
-
-    - uses: actions/upload-artifact@v2
-      with:
-        name: name-of-artifact
-        path: src/dist/windows
+        type: now
+        from_branch: staging
+        target_branch: master
+        github_token: ${{ github.token }}
+        
+    build_and_test:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v3
+        - name: npm install, build, and test
+          run: |
+            npm install
+            npm run build --if-present
+            npm test
+        - name: Archive production artifacts
+          uses: actions/upload-artifact@v3
+          with:
+            name: dist-without-markdown
+            path: |
+              dist
+              !dist/**/*.md
+        - name: Archive code coverage results
+          uses: actions/upload-artifact@v3
+          with:
+            name: code-coverage-report
+            path: output/test/code-coverage.html
