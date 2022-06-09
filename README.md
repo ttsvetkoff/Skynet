@@ -1,6 +1,6 @@
 # Skynet
 
-[![CD pull from staging to main](https://github.com/ttsvetkoff/Skynet/actions/workflows/prod_CD.yml/badge.svg)](https://github.com/ttsvetkoff/Skynet/actions/workflows/prod_CD.yml)
+[![Prod <- Stage CI](https://github.com/ttsvetkoff/Skynet/actions/workflows/prod_CI.yml/badge.svg)](https://github.com/ttsvetkoff/Skynet/actions/workflows/prod_CI.yml)
 
 GUI application written in Python with sqlite3 and tkinter
 
