@@ -4,19 +4,18 @@ on:
     branches: master
 
 jobs:
-  python-lint:
-    runs-on: ubuntu-latest
-    name: CD workflow
-    steps:
+  build:
 
-    - name: Merge stage -> master
-      uses: devmasx/merge-branch@master
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Package Application
+      uses: JackMcKew/pyinstaller-action-windows@main
       with:
-        type: now
-        from_branch: staging
-        target_branch: master
-        github_token: ${{ github.token }}
-        
+        path: ./
+
     - uses: actions/upload-artifact@v2
       with:
         name: name-of-artifact
