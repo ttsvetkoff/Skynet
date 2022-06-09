@@ -11,7 +11,7 @@ jobs:
     - name: linting
       uses: programmingwithalex/pylinter@main
       with:
-        python-root: '.'
+        python-root: './main.py'
         flake8-flags: ''
         mypy-flags: ''
         fail-on-isort: false
