@@ -1,4 +1,6 @@
-on: [push, pull_request]
+on: 
+  push:
+    branches: testing
 
 jobs:
   python-lint:
@@ -20,6 +22,6 @@ jobs:
       uses: devmasx/merge-branch@master
       with:
         type: now
-        from_branch: test
-        target_branch: database_work
+        from_branch: testing
+        target_branch: staging
         github_token: ${{ github.token }}
