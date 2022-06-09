@@ -16,8 +16,10 @@ root.geometry('1095x1350+400+5')
 
 # Logic check IF db exists or not, depending on result runs either DB create function or main application function
 def logic_check():
-    if os.path.exists('database.db'): main_app()
+    if os.path.exists('database.db'): 
+        main_app()
     else:  create_db()
+
 
 # Declaration and definition of the main app function
 def main_app():
@@ -28,7 +30,7 @@ def main_app():
     tkinter.messagebox.showinfo(title="DB", message = "Database Loaded")        
     # query block that creates a array of db column contains used for the drop down menus - company name list
 
-    
+
     query_company = """SELECT distinct(company_name) as class from subcontracting_company"""
     sets = cursor.execute(query_company)
     company_name_list = [s for s, in sets]
