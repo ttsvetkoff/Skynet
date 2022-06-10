@@ -1,4 +1,4 @@
-name: Prod <- Stage CI
+name: Stage to Prod
 on:
   pull_request:
     branches: master
