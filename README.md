@@ -18,4 +18,6 @@ Visitors can have their names updated
 
 In case of error in the latest entry it can be deleted
 
-![Screenshot 2022-06-07 at 17 00 37](https://user-images.githubusercontent.com/49660924/172427665-067cef6a-8ac8-4a7d-aff3-f21dbb1bbd77.png)
+![GUI](https://user-images.githubusercontent.com/49660924/173047815-9a1a0db6-4499-4bb4-9f53-96d2a4c78b9c.png)
+
+
