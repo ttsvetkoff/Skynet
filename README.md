@@ -1,5 +1,6 @@
 # Skynet
 
+[![Stage to Prod](https://github.com/ttsvetkoff/Skynet/workflows/.github/prod_CI.yml/badge.svg)](https://github.com/ttsvetkoff/Skynet/workflows/.github/prod_CI.yml)
 
 GUI application written in Python with sqlite3 and tkinter
 
